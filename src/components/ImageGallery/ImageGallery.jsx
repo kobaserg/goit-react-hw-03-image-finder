@@ -22,27 +22,26 @@ export class ImageGallery extends React.Component {
         loading: true,
         gallery: [],
       });
-      setTimeout(() => {
-        fetch(
-          `${URL}key=${API_KEY}&q=${this.props.galleryName}
+
+      fetch(
+        `${URL}key=${API_KEY}&q=${this.props.galleryName}
         &image_type=photo&orientation=horizontal
         &per_page=${this.props.per_page}
         &page=${this.props.page}`
-        )
-          .then(responce => responce.json())
-          .then(gallery => {
-            this.setState({
-              gallery: gallery.hits,
-              totalHits: gallery.totalHits,
-              error: false,
-            });
-          })
-          .catch(error => this.setState({ error: true }))
-          .finally(() => {
-            this.setState({ loading: false });
-            this.props.onBtnLoadMore('true');
+      )
+        .then(responce => responce.json())
+        .then(gallery => {
+          this.setState({
+            gallery: gallery.hits,
+            totalHits: gallery.totalHits,
+            error: false,
           });
-      }, 2000);
+        })
+        .catch(error => this.setState({ error: true }))
+        .finally(() => {
+          this.setState({ loading: false });
+          this.props.onBtnLoadMore('true');
+        });
     }
   }
 
@@ -54,9 +53,10 @@ export class ImageGallery extends React.Component {
     const images = this.state.gallery;
     return (
       <div>
+        {this.state.loading && <Loader />}
         <Gallery>
           {/* {this.state.error && Notiflix.Notify.failure('Gallery not found')} */}
-          {this.state.loading && <Loader />}
+
           {images &&
             images.map((image, index) => {
               return (
