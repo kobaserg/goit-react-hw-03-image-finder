@@ -1,5 +1,5 @@
 import React from 'react';
-import { Puff } from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 import { LoaderBox, LoaderItem } from './Loader.styled';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -9,14 +9,14 @@ export const Loader = () => {
       <br />
       <LoaderBox>
         <LoaderItem>
-          <Puff
+          <ThreeDots
             height="80"
             width="80"
-            radisu={1}
-            color="#183ed6"
-            ariaLabel="puff-loading"
+            radius="9"
+            color="#255dd8"
+            ariaLabel="three-dots-loading"
             wrapperStyle={{}}
-            wrapperClass=""
+            wrapperClassName=""
             visible={true}
           />
         </LoaderItem>
