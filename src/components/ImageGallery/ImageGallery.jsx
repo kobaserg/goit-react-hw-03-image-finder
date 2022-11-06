@@ -14,6 +14,7 @@ export class ImageGallery extends React.Component {
     galleryImage: [],
     loading: false,
     error: null,
+    totalHits: 0,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,7 +38,7 @@ export class ImageGallery extends React.Component {
       )
         .then(responce => responce.json())
         .then(gallery => {
-          if (gallery.hits.length === 0) {
+          if (gallery.totalHits === 0) {
             Notiflix.Notify.failure('Gallery not found');
             this.props.onBtnLoadMore(false);
           } else this.props.onBtnLoadMore(true);
@@ -47,6 +48,10 @@ export class ImageGallery extends React.Component {
             totalHits: gallery.totalHits,
             error: false,
           }));
+          // console.log(this.state.galleryImage.length, this.state.totalHits);
+          // if (this.state.galleryImage.length === this.state.totalHits) {
+          //   this.props.onBtnLoadMore(false);
+          // }
         })
         .catch(error => this.setState({ error: true }))
         .finally(() => {
@@ -60,8 +65,6 @@ export class ImageGallery extends React.Component {
   };
 
   render() {
-    if (this.state.galleryImage.length === this.state.totalHits)
-      this.props.onBtnLoadMore(false);
     const images = this.state.galleryImage;
 
     return (
