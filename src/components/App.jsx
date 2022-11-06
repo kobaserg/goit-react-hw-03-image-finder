@@ -35,7 +35,6 @@ export class App extends React.Component {
       onModal: true,
       urlLargeImage: urlLargeImg,
     });
-    console.log('Открываю модальное окно', urlLargeImg);
   };
 
   isCloseModal = () => {
@@ -47,12 +46,10 @@ export class App extends React.Component {
   };
 
   onClickLoadMore = () => {
-    const prevPage = this.state.page;
-    this.setState({
-      onVisibleBtnLoadMore: false,
-      page: prevPage + 1,
+    this.setState(prevState => ({
+      page: prevState.page + 1,
       submitSearch: false,
-    });
+    }));
   };
   render() {
     return (
