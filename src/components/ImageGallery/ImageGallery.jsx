@@ -1,5 +1,4 @@
 import React from 'react';
-import Notiflix from 'notiflix';
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Loader } from '../Loader/Loader';
@@ -11,18 +10,30 @@ const API_KEY = '29969800-031613b21cddc77cf547ed849';
 
 export class ImageGallery extends React.Component {
   state = {
-    gallery: [],
+    gal: [],
     loading: false,
     error: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.galleryName !== this.props.galleryName) {
+    if (
+      prevProps.galleryName !== this.props.galleryName ||
+      prevProps.page !== this.props.page
+    ) {
+      console.log('Цикл рендера key=', this.props.galleryName);
       this.setState({
+        gal: [],
         loading: true,
-        gallery: [],
       });
 
+      console.log('Сброс галереи , галерея до -->', prevState.gal);
+      console.log('Состояние submit -->', this.props.onSubmitForm);
+
+      if (this.props.onSubmitForm) {
+        console.log('Submit NEW');
+        this.setState({ gal: '' });
+      }
+      console.log('Галереия после сброса ', this.state.gal);
       fetch(
         `${URL}key=${API_KEY}&q=${this.props.galleryName}
         &image_type=photo&orientation=horizontal
@@ -32,7 +43,7 @@ export class ImageGallery extends React.Component {
         .then(responce => responce.json())
         .then(gallery => {
           this.setState({
-            gallery: gallery.hits,
+            gal: prevState.gal.concat(gallery.hits),
             totalHits: gallery.totalHits,
             error: false,
           });
@@ -50,10 +61,9 @@ export class ImageGallery extends React.Component {
   };
 
   render() {
-    const images = this.state.gallery;
+    const images = this.state.gal;
     return (
       <div>
-        {this.state.loading && <Loader />}
         <Gallery>
           {/* {this.state.error && Notiflix.Notify.failure('Gallery not found')} */}
 
@@ -71,7 +81,12 @@ export class ImageGallery extends React.Component {
               );
             })}
         </Gallery>
+        {this.state.loading && <Loader />}
       </div>
     );
   }
 }
+
+ImageGallery.propTypes = {
+  props: PropTypes.object,
+};

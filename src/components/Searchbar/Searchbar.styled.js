@@ -49,9 +49,7 @@ export const SearchFormButton = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  /* background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg'); */
-  background-image: url ('../../icon/search_2.svg');
-  /* background-image: rgba(245, 40, 145, 0.8) */
+  background-image: url('https://img.icons8.com/ios/50/null/search--v1.png');
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;

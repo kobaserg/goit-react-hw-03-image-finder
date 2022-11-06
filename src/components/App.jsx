@@ -3,7 +3,6 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
 import { Button } from './Button/Button';
-import './styles.css';
 
 export class App extends React.Component {
   state = {
@@ -11,8 +10,9 @@ export class App extends React.Component {
     page: 1,
     per_page: 12,
     onModal: false,
-    onBtnLoadMore: false,
+    onVisibleBtnLoadMore: false,
     urlLargeImage: '',
+    submitSearch: true,
   };
 
   componentDidMount() {
@@ -24,7 +24,9 @@ export class App extends React.Component {
   handleFormSubmit = searchGallery => {
     this.setState({
       searchGallery,
-      onBtnLoadMore: false,
+      onVisibleBtnLoadMore: false,
+      page: 1,
+      submitSearch: true,
     });
   };
 
@@ -40,8 +42,17 @@ export class App extends React.Component {
     this.setState({ onModal: false });
   };
 
-  handleBtnLoadMore = btnLM => {
-    this.setState({ onBtnLoadMore: btnLM });
+  visibleBtnLoadMore = btnLM => {
+    this.setState({ onVisibleBtnLoadMore: btnLM });
+  };
+
+  onClickLoadMore = () => {
+    const prevPage = this.state.page;
+    this.setState({
+      onVisibleBtnLoadMore: false,
+      page: prevPage + 1,
+      submitSearch: false,
+    });
   };
   render() {
     return (
@@ -51,8 +62,9 @@ export class App extends React.Component {
           galleryName={this.state.searchGallery}
           page={this.state.page}
           per_page={this.state.per_page}
+          onSubmitForm={this.state.submitSearch}
           onModal={this.handleModal}
-          onBtnLoadMore={this.handleBtnLoadMore}
+          onBtnLoadMore={this.visibleBtnLoadMore}
           urlLargeImage={this.handleModal}
         />
         {this.state.onModal && (
@@ -61,7 +73,9 @@ export class App extends React.Component {
             closeModal={this.isCloseModal}
           />
         )}
-        {this.state.onBtnLoadMore && <Button />}
+        {this.state.onVisibleBtnLoadMore && (
+          <Button onBtnLM={this.onClickLoadMore} />
+        )}
       </div>
     );
   }

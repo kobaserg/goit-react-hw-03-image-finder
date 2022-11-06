@@ -17,3 +17,7 @@ export const ImageGalleryItem = props => {
     </ItemGallery>
   );
 };
+
+ImageGalleryItem.propTypes = {
+  props: PropTypes.object,
+};

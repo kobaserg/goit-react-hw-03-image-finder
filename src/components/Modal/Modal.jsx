@@ -17,3 +17,7 @@ export const Modal = props => {
     </Overlay>
   );
 };
+
+Modal.propTypes = {
+  props: PropTypes.object,
+};

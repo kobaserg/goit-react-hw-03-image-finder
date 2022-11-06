@@ -50,3 +50,7 @@ export class Searchbar extends React.Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  props: PropTypes.object,
+};
