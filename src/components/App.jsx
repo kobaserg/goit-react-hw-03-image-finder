@@ -39,6 +39,9 @@ export class App extends React.Component {
 
   isCloseModal = () => {
     this.setState({ onModal: false });
+    window.removeEventListener('keydown', event => {
+      if (event.code === 'Escape') this.setState({ onModal: false });
+    });
   };
 
   visibleBtnLoadMore = btnLM => {
